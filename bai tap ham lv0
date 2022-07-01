@@ -1,0 +1,253 @@
+///*1. mảng là gì ?
+//- mảng là tập hợp tất cả các phần tử cũng 1 kiểu dữ liệu 
+//
+//2. số lượng phần tử tối đa của mảng là giá trị như thế nào ?
+//- là giá trị dương, quan trọng của mảng, vị trí bắt đầu từ vị trí 0. 
+//- thuộc vào kiễu dữ liệu của mảng để cấp phát bộ nhớ 
+//
+//3. Mảng tĩnh khác gì so với mảng động ?
+//- mảng tĩnh: các phần tử liên tiếp nhau,  có kích thước băng n-1, khi truy cập phân tử là a[vị trí truy cập], khong thay đổi được kích thước mảng khi hoát động 
+//- mảng động:  có thể thay đổi kích thước mảng , 
+//
+//4. Trình bày CHI TIÊT chương trình sẽ xử lý gì khi gặp lệnh : int a[10];
+// sẽ cấp phát ra 1 mảng tĩnh có 10 phần tử không có gán giá trị 
+//
+//5. Trình bày ý nghĩa lệnh : int a[7];         và lệnh   a[0];
+//int a[7] : tạo ra 1 mảng kiểu int và có 7 phần tử
+//tri xuất giá trị của phần tử thứ 0 của mảng a có kiểu int 
+//
+//6. Giá trị của các phần tử mảng sau khi vừa khai báo là gì ?
+//mảng sau khi khai báo sẽ có giá trị rác 
+//
+//7. Trình bày công thức tính kích thước mảng : float a[n] ?
+//kích thước = n-1*/
+//Thư viện nhập chuẩn 
+#include<iostream>; 
+using namespace std;
+#define max 100
+void menu();
+void nhapMang(int a[], int n);
+void xuatMang(int a[], int n);
+bool kiem_Tra_So_Nguyen_To(int a, int n);
+void Xuat_So_Nguyen_To(int a[], int n);
+void Tim_le_cuoi(int a[], int n);
+void Max_Min(int a[], int n);
+bool Toan_Duong(int a[], int n);
+bool Tang_Dan(int a[], int n);
+bool Kiem_tra_mot_so_sieu_nguyen_to(int a);
+void Kiem_Tra_Mang_so_sieu_Nguyen_To(int a[], int n);
+
+void main() {
+	menu();
+}
+void menu() {
+	int a[max];
+	int n;
+	bool kiem_Tra_Menu = true;
+	while (kiem_Tra_Menu==true)
+	{
+		system("cls");
+		cout << "1. Nhap Mang\n";
+		cout << "2. Xuat Mang\n";
+		cout << "3. xuat so nguyen to \n";
+		cout << "4. tim so le cuoi\n";
+		cout << "5. tim doan [a,b]\n";
+		cout << "6. kiem tra toan duong\n";
+		cout << "7. kiem tra tang dan\n";
+		cout << "8. kiem tra so sieu nguyen to \n";
+		int lua_Chon;
+		cout << " Nhap lua chon: "; cin >> lua_Chon;
+		
+		switch (lua_Chon)
+		{
+		case 1:
+		{	
+			cout << " nhap so luong phan tu: "; cin >> n;
+			nhapMang(a, n);
+			break;
+		}
+		case 2:
+		{
+			xuatMang(a, n);
+			system("pause");
+			break;
+		}
+		case 3:
+		{
+			Xuat_So_Nguyen_To(a, n);
+			system("pause");
+			break;
+		}
+		case 4:
+		{
+			Tim_le_cuoi(a, n);
+			system("pause");
+			break;
+		}
+		case 5:
+		{
+			Max_Min(a, n);
+			system("pause");
+			break;
+			
+		}
+		case 6:
+		{
+			if (Toan_Duong(a, n) == true) {
+				cout << " mang toan duong\n";
+			}
+			else {
+				cout << "mang khong toan duong\n";
+			}
+			system("pause");
+			break;
+		}
+		case 7:
+		{
+			if (Tang_Dan(a, n) == true) {
+				cout << " mang tang dan\n";
+			}
+			else {
+				cout << " mang khong tang dan\n";
+			}
+			system("pause");
+			break;
+		}
+		case 8:
+		{
+			Kiem_Tra_Mang_so_sieu_Nguyen_To(a, n);
+			system("pause");
+			break;
+		}
+		}
+	}
+}
+void nhapMang(int a[], int n)
+{
+
+	for (int i = 0; i < n; i++) {
+		cout << " phap phan tu thu[" << i << "] la :"; cin >> a[i];
+	}
+}
+void xuatMang(int a[], int n)
+{
+	cout << " xuat mang ";
+	for (int i = 0; i < n; i++) {
+		cout << "\n phan tu thu[" << i << "] la: " << a[i]<<" ";
+	}
+}
+// 1. Viết chương trình xuất ra các phần tử là số nguyên tố trong mảng
+// kiem tra so nguyen to
+bool kiem_Tra_So_Nguyen_To(int a) {
+	if (a == 1 || a == 2) {
+		return true;
+	}
+	for (int i = 2; i < a; i++) {
+		if (a % i == 0) {
+			return false;
+		}
+	}
+	return true;
+}
+void Xuat_So_Nguyen_To(int a[], int n) {
+
+	for (int i = 0; i < n; i++) {
+		if (kiem_Tra_So_Nguyen_To(a[i])==true) {
+			cout << "\nso nguyen to a[" << i << "] la " << a[i];
+		}
+	}
+}
+
+//2. Cho dãy số nguyên.Viết chương trình tìm giá trị lẻ cuối cùng trong mảng.
+void Tim_le_cuoi(int a[], int n) {
+	for (int i = n - 1; i >= 0; i--) {
+		if (a[i] % 2 != 0) {
+			cout << "\nle cuoi la a[" << i << "]= " << a[i];
+			return;
+		}
+	}
+}
+
+//3. Cho dãy số nguyên. Viết chương trình tìm đoạn [a, b] sao cho đoạn này chứa mọi giá trị trong mảng.
+void Max_Min(int a[], int n) {
+	int Max = a[0];
+	int Min = a[0];
+	for (int i = 1; i < n; i++) {
+		if (a[i] > Max) {
+			Max = a[i];
+		}
+		if (a[i] < Min) {
+			Min = a[i];
+		}
+	}
+	cout << "\n don chua toan mang la [a;b]= " << "[" << Min << ";" << Max << "]";
+}
+
+
+//4. Cho dãy số nguyên. Viết chương trình kiểm tra mảng có toàn dương hay không?
+bool Toan_Duong(int a[], int n) {
+	for (int i = 0; i < n; i++) {
+		if (a[i] < 0) {
+			return false;
+		}
+	}
+	return true;
+}
+
+//5. Cho dãy số nguyên. Viết chương trình kiểm tra mảng có tăng dần hay không?
+bool Tang_Dan(int a[], int n) {
+	for (int i = 0; i < n-1; i++) {
+		if (a[i + 1] < a[i]) {
+			return false;
+		}
+	}
+	return true;
+}
+
+//6. Viết chương trình in ra các số siêu nguyên tố có trong mảng.
+
+//kiem tra tu cai coi co phai la so nguyen to khon
+//so kiem tra chi tuong duong
+//so nhan nhan tuong duong voi lan chia do
+//vd: 2333
+//lan 1 : 3 lla so nguyen to tuong duong voi % 10
+//lan 2 : 33 la nguyen to tuong duong voi % 10 * 10
+//lan 3 : 333 la so nguyen to tuong duong voi %100*10
+//lan 4 : 2333 la so nguyen to tuong duong voi %10 000
+//sau khi kiem tra xong la so sieu nguyen to hay ko 
+//dau vao : mang, 1 so nguyen to, do dai
+//dau ra: true , false
+
+
+// BAI 6 EM CO Y TUONG NHU VAY NHUNG KO LAM RA KET QUA	
+// cho 1 phan tu
+bool Kiem_tra_mot_so_sieu_nguyen_to(int a) {
+	int so_chia = 1;
+	bool kiem_tra = false;
+	while (a > 0) {
+	
+		if (kiem_Tra_So_Nguyen_To(a)) {
+			kiem_tra = true;
+		}
+		else
+		{
+			return false;
+		}
+		so_chia = so_chia * 10;
+		a =a % so_chia;
+	}	
+	return kiem_tra;
+}
+// cho 1 mang 
+void  Kiem_Tra_Mang_so_sieu_Nguyen_To(int a[], int n) {
+	for (int i = 0; i < n; i++) {
+		if (Kiem_tra_mot_so_sieu_nguyen_to(a[i])){
+			cout << " so sieu nguyen to la a[" << i << "]= " << a[i];
+		}
+		else {
+			cout << "khong co so sieu nguyen to";
+		}
+	}
+}
+
+
