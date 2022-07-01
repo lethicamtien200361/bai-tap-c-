@@ -1,0 +1,300 @@
+////========================= BT lý thuy?t ===================
+//1. m?ng không thêm ???c khi nào ?
+// - khi ?ã c? ??nh ??i dài c?a m?ng 
+//
+//2. m?ng không xóa ???c khi nào ?
+// - khi ?ã c? ??nh ??i dài c?a m?ng 
+// 
+//3. Trình bày l?n l??t h??ng duy?t c?a thu?t toán thêm, thu?t toán xóa
+// // THÊM: lùi các ph?n t? phía sau t? v? trí c?n thêm sang 1 ??n v? 
+//          sau ?ó chèn giá tr? c?n thêm vào v? trí ?ó
+// vd: 1 2 3 c?n thêm s? 4 vào v? trí 1
+//     1   2 3 
+//     1 4 2 3
+//      
+//    XÓA: t? v? trí c?a giá tr? c?n xóa các v? trí sau gán l?i giá tr? c?a v? trí phia tr??c 
+// vd: 1 2 3 4 xóa tr? trí th? 2 
+//     1 2 4  g?n th?ng s? v? trí th? 3 vào v? trí th? 2 
+// 
+//4. trình bày code thu?t toán thêm - thu?t toán xóa(ch?n 1 trong 2 cách)
+// 
+////========================= BT nh?==============
+//1. Luy?n code m?u 5 l?n
+////========================= BT ==================================
+#include<iostream>;
+using namespace std;
+#define max 100
+
+void menu();
+void Nhap(int a[], int n);
+void Xuat(int a[], int n);
+bool kiem_tra_so_doi_xung(int a);
+int dem_so_doi_xuong(int a[], int n);
+void Xoa_so_doi_xung(int a[], int n);
+bool kiem_tra_so_hoan_thien(int a);
+int dem_so_hoan_thien(int a[], int n);
+void them_mang(int a[], int n);
+int dem_so_luong_trung(int a[], int n);
+void xoa_cac_gia_tri_trung_nhau(int a[], int n);
+int dem_so_lan_xua_hien(int b, int a[], int n);
+void dem_so_lan_xuat_hien_cua_mang(int a[], int n);
+
+void main() {
+	menu();
+}
+void menu() {
+	int a[max];
+	int n;
+	bool kiemTra = true;
+	while (kiemTra) {
+		system("cls");
+		cout << "1. NHAP MANG\n";
+		cout << "2. XUAT MANG\n";
+		cout << "3. XOA SO DOI XUNG\n";
+		cout << "4. THEM 1 PHAN TU 0 VA TRUOC VI TRI SO HOAN THIEN\n";
+		cout << "5. XOA CAC PHAN TU TRUNG NHAU\n";
+		cout << "6. DEM SO LAN XUAT HIEN CUA PHAN TU \n";
+		int lua_chon;
+		cout << "NHAP LUA CHON "; cin >> lua_chon;
+		switch (lua_chon)
+		{
+		case 1: {
+			cout << " nhap phan tu mang: "; cin >> n;
+			Nhap(a, n);
+			break;
+		}
+		case 2: {
+			Xuat(a, n);
+			system("pause");
+			break;
+		}
+		case 3:
+		{
+			Xoa_so_doi_xung(a, n);
+			system("pause");
+			break;
+
+		}
+		case 4: {
+			them_mang(a, n);
+			system("pause");
+			break;
+		}
+		case 5:
+		{
+			xoa_cac_gia_tri_trung_nhau(a, n);
+			system("pause");
+			break;
+		}
+		case 6: {
+			dem_so_lan_xuat_hien_cua_mang(a,n);
+			system("pause");
+			break;
+		}
+		}
+	}
+}
+void Nhap(int a[], int n) {
+	for (int i = 0; i < n; i++) {
+		cout << " nhap phan tu a[" << i << "]= ";cin >> a[i];
+	}
+}
+void Xuat(int a[], int n) {
+	cout << " XUAT MANG";
+	for (int i = 0; i < n; i++) {
+		cout << "\n a[" << i << "]= " << a[i];
+	}
+}
+//Bài 1: Cho 1 dãy s? nguyên.Vi?t ch??ng trình xóa các ph?n t? là s? ??i x?ng.
+// kiem tra so doi xung 
+bool kiem_tra_so_doi_xung(int a) {
+	int so_dao_nguoc=0;
+	int don_vi=0;
+	int thu = a;
+	// dùng while ?? ki?m tra s? ??o ng??c
+	while (thu>0)
+	{
+		don_vi = thu % 10;
+		so_dao_nguoc = so_dao_nguoc * 10 + don_vi;
+		thu /= 10;
+	}
+	if (so_dao_nguoc == a) {
+		return true;
+	}
+	return false;
+}
+// dem so doi cxong trong mang
+int dem_so_doi_xuong(int a[], int n) {
+	int dem = 0;
+	for (int i = 0; i < n; i++) {
+		// ki?m tra n?u là s? ??i x?ng t?ng bi?n ??m lên 1
+		if (kiem_tra_so_doi_xung(a[i])) {
+			dem++;
+		}
+	}
+	return dem;
+}
+// tao mang khac chua mang da xoa 
+void Xoa_so_doi_xung(int a[], int n) {
+	int dem = dem_so_doi_xuong(a,n);
+	cout << dem;
+	//t?o m?ng b ch?a các ph?n t? sau khi xóa s? ??o ng??c
+	int b[max];
+	// t?o giá tr? m ?? t?ng v? trí giá tr? c?a m?ng b lên 
+	int m = 0;
+	// ?? dài c?a m?ng b
+	int do_Dai_Mang_sau_khi_xoa = n - dem ;
+	// l?y for ?? duy?t t? ph?n t? c?a m?ng a
+	for (int i = 0; i < n; i++) {
+		// ki?m tra n?u ph?n t? t?i v? tría i không ph?i là s? ??i x?ng thì gán ph?n t? ?ó vào b t?i v? trí m 
+		if (!kiem_tra_so_doi_xung(a[i])) {
+			b[m] = a[i];
+			// t?ng v? trí c?a m?ng b lên 1 ??n v? 
+			m++;
+		}
+	}
+	m = 0;
+	cout << "\nMANG SAU KHI XOA";
+	// xuat mang sau khi xoa
+	for (int i = 0; i < do_Dai_Mang_sau_khi_xoa; i++) {
+		cout << "\nb[" << i << "]= " << b[m];
+		m++;
+	}
+ }
+
+//Bài 2: Cho 1 dãy s? nguyên. Vi?t ch??ng trình thêm ph?n t? 0 vào tr??c các s? hoàn thi?n
+
+// hàm ki?m tra s? hoàn thi?n 
+// vd 6 có các ??c là 1 2 3 thì t?ng các ??c =6==> s? hoàn thi?n
+bool kiem_tra_so_hoan_thien(int a) {
+	int tong = 0;
+	for (int i = 1; i < a; i++) {
+		if (a % i == 0) {
+			tong += i;
+		}
+	}
+	if (tong == a) {
+		return true;
+	}
+	return false;
+}
+// ??m s? hoàng thi?n 
+int dem_so_hoan_thien(int a[], int n) {
+	int dem = 0;
+	for (int i = 0; i < n; i++) {
+		if (kiem_tra_so_hoan_thien(a[i])) {
+			dem++;
+		}
+	}
+	return dem;
+}
+// thêm s? hoàn thi?n
+// t?o 1 m?ng m?i b ch?a các m?ng a và các ch? s? 0 
+void them_mang(int a[], int n) {
+	int dem = dem_so_hoan_thien(a,n);
+	// t?i m?ng b ?? ch?a mang ?ã them a
+	int b[max];
+	// t?o v? trí cho m?ng b khi v? trí c?a m?ng b t?ng lên 
+	int m = 0;
+	// ?? dài c?a m?ng b sau khi them
+	int do_dai_manhg_sau_khi_them = n + dem;
+	for (int i = 0; i < n; i++) {
+		if (!kiem_tra_so_hoan_thien(a[i])) {
+			// khi không là s? hoàn thì thì gán giá tr? t?i v? trí i c?a a và t?i v? trí m c?a b
+			b[m] = a[i];
+			// m tang lên 1 ??n v? ?? gán giá tr? ti?p theo c?a b 
+			m++;
+		}
+		else {
+			// là s? hoàn thi? thì cho v? trí ti?p theo c?a b=0
+			b[m] = 0;
+			// t?ng v? trí lên 1 ??n v? 
+			m++;
+			// cho v? trí ti?p theo ?ó b?ng s? hoàn thi?n c?a a
+			b[m] = a[i];
+			// t?ng v? trí lê 1 ??n v? cho giá trí ti?p theo
+			m++;
+		}
+	}
+	cout << "MANG SAU KHI THEM";
+	for (int i = 0; i < do_dai_manhg_sau_khi_them;i++) {
+		cout << "\nb[" << i << "]= " << b[i];
+	}
+}
+
+//Bài 3. Cho m?ng 1 chi?u các s? nguyên. Vi?t ch??ng trình xóa các ph?n t? trùng nhau trong m?ng,
+//  ch? gi? l?i duy nh?t m?t ph?n t? phân bi?t.
+//VD: 1 4 2 2 1 5 4
+//==> 1 4 2 5
+
+// ??m s? l??ng các giá tr? trùng nhau 
+int dem_so_luong_trung(int a[], int n) {
+	int dem = 0;
+	// for l?ng ?? xét các giá tr? trùng nhau 
+	for (int i = 0; i < n; i++) {
+		for (int j = i + 1; j < n - 1; j++) {
+			if (a[i] != a[j]) {
+				dem++;
+			}
+		}
+	}
+	return dem;
+}
+// kiem tra co trung 
+bool kiem_tra_trung(int so_Kiemn_tra, int a[], int n) {
+		for (int j = so_Kiemn_tra + 1; j < n - 1; j++) {
+			if (so_Kiemn_tra == a[j]) {
+				return false;
+			}
+	}
+	return true;
+}
+// xoa các giá tr? trùng nhau 
+void xoa_cac_gia_tri_trung_nhau(int a[], int n) {
+	int dem = dem_so_luong_trung(a, n);
+	int do_dai_cua_mang_b = n - dem;
+	int b[max];
+	int m = 0;
+	for (int i = 0; i < n; i++) {
+		if (!kiem_tra_trung(a[i], a, n)) {
+			b[m] = a[i];
+			m++;
+		}
+	}
+	for (int i = 0; i < do_dai_cua_mang_b; i++) {
+		cout << "\nb[" << i << "]= " << b[i];
+	}
+}
+
+//Bài 4. Cho m?ng 1 chi?u các s? nguyên. Vi?t ch??ng trình ??m s? l?n xu?t hi?n c?a t?ng ph?n t? trong m?ng.
+//VD:
+//1 3 5 2 3 1
+//==>
+//Ph?n t?	S? l?n xu?t hi?n
+//1 		2
+//2			1
+//3			2
+//5			1
+
+// ??m s? l?n xu?t hi?n cua ph?n t? b trong mang a
+int dem_so_lan_xua_hien(int b, int a[], int n) {
+	int dem = 0;
+	for (int i = 0; i < n; i++) {
+		// n?u giá tr? b mà trung v?i ph?n t? nào trong a thì s? tang bi?n ??m lên 1 ??n v? 
+		if (b == a[i]) {
+			dem++;
+		}
+	}
+	// tr? v? giá tr? c?a bi?n ??m 
+	return dem;
+}
+// ??m s? l?n xu?t hi?n c?a m?ng 
+void dem_so_lan_xuat_hien_cua_mang(int a[], int n) {
+	int dem = 0;
+	for (int i = 0; i < n; i++) {
+		// giá giá tr? c?a bi?n
+		dem =dem_so_lan_xua_hien(a[i], a, n);
+		cout << "so lan xuat hien cua " << a[i] << " la : " << dem<<"\n";
+	}
+}
+
