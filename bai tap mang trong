@@ -1,0 +1,443 @@
+#include<iostream>
+using namespace std;
+#define max 100
+int a[max] = { 0 };
+int b[max] = { 0 };
+int n; int m;
+//Ta có 2 m?ng
+//a : 1 2 3 4
+//b : 5 6 7
+//1. Vi?t ch??ng trình g?p m?ng a vào ??u m?ng b
+//= > b: 1 2 3 4 5 6 7
+//2. Vi?t ch??ng trình g?p m?ng a vào cu?i m?ng b
+//= > b: 5 6 8 1 2 3 4
+void Nhap(int a[], int n, int b[], int m);
+void Xuat(int a[], int n, int b[], int m);
+void meni(int a[], int b[]);
+void gop_mang(int a[], int b[], int n, int  m);
+void gop_mang_cuoi(int a[], int b[], int n, int m);
+void tron_mang_tang_dan(int a[], int n, int b[], int m);
+void tach_cac_so_am();
+void xoa_mang_so_am(int mang_a[], int& l_c);
+void ham_xoa(int a[], int& n, int vt);
+void bai_thi_ket_thuc_hoc_phan();
+void tim_phan_tu_lon_nha();
+void so_xa_nhat();
+void tim_2_so_deu_chan();
+void dao_nguoc_mang();
+void xoay_mang();
+int  uoc_chcung_lon_nhat_cuaa_2_so(int x, int  y);
+void uoc_chung_lon_nhat();
+//------------------------------
+void main() {
+
+	meni(a, b);
+}
+void meni(int a[], int b[]) {
+	int l_c;
+	while (true) {
+
+		system("cls");
+		cout << "1. NHAP MANG\n";
+		cout << "2. XUAT MANG\n";
+		cout << "3. GOP MANG VAO DAU\n";
+		cout << "4. GOP MANG CAU CUOI\n";
+		cout << "5.TRON MANG TANG DAN\n";
+		cout << "6.XOA CAC SO AM\n";
+		cout << "7.KET THUC HOC PHAN\n";
+		cout << "8. TIM SO LON NHAT \n";
+		cout << "9. TIM PHAN TU XA X NHAT \n";
+		cout << "10. TIM 2 SO DEU CHAN TRONG MANG \n";
+		cout << "11. DAO NGUOC MANG \n";
+		cout << "12. XOAY MANG\n";
+		cout << "13. UOC CHUNG LON NHAT\n";
+		cout << "=====NHAP LUA CHON ";cin >> l_c;
+		switch (l_c)
+		{
+		case 1: {
+			cout << "nhap so luong phan tu mang a: "; cin >> n;
+			cout << "nhap so luong phan tu mang b: ";cin >> m;
+			Nhap(a, n, b, m);
+			break;
+		}
+		case 2:
+		{
+			Xuat(a, n, b, m);
+			system("pause");
+			break;
+		}
+		case 3: {
+			gop_mang(a, b, n, m);
+			system("pause");
+			break;
+		}
+		case 4:
+		{
+			gop_mang_cuoi(a, b, n, m);
+			system("pause");
+			break;
+		}
+		case 5: {
+			tron_mang_tang_dan(a, n, b, m);
+			system("pause");
+			break;
+		}
+		case 6:
+		{
+			tach_cac_so_am();
+			system("pause");
+			break;
+		}
+		case 7:
+		{
+			bai_thi_ket_thuc_hoc_phan();
+			system("pause");
+			break;
+		}
+		case 8: {
+			tim_phan_tu_lon_nha();
+			system("pause");break;
+		}
+		case 9: {
+			so_xa_nhat();
+			system("pause");
+			break;
+		}
+		case 10: {
+			tim_2_so_deu_chan();
+			system("pause");
+			break;
+		}
+		case 11: {
+			dao_nguoc_mang();
+			system("pause");
+			break;
+		}
+		case 12: {
+			xoay_mang();
+			system("pause");
+			break;
+		}
+		case 13: {
+			uoc_chung_lon_nhat();
+			system("pause");
+			break;
+		}
+			  system("pause");
+		}
+	}
+}
+void Nhap(int a[], int n, int b[], int m) {
+	for (int i = 0; i < n; i++) {
+		cout << " nhap phan tu a[" << i << "]= ";cin >> a[i];
+	}
+	for (int i = 0; i < m; i++) {
+		cout << " nhap phan tu b[" << i << "]= "; cin >> b[i];
+	}
+}
+void Xuat(int a[], int n, int b[], int m) {
+	cout << " XUAT MANG";
+	for (int i = 0; i < n; i++) {
+		cout << "\n a[" << i << "]= " << a[i];
+	}
+	for (int i = 0; i < m; i++) {
+		cout << "\nb[" << i << "]= " << b[i];
+	}
+}
+void gop_mang(int a[], int b[], int n, int m) {
+	int c[max] = {};
+	int vi_tri_c = 0;
+	for (int i = 0; i < n; i++) {
+		c[vi_tri_c] = a[i];
+		vi_tri_c++;
+	}
+	for (int i = 0; i < m; i++) {
+		c[vi_tri_c] = b[i];
+		vi_tri_c++;
+	}
+	cout << "\t\t OUTPUT\n";
+	for (int i = 0; i < vi_tri_c; i++) {
+		cout << "c[" << i << "]= " << c[i] << "\n";
+	}
+
+}
+void gop_mang_cuoi(int a[], int b[], int n, int m) {
+	int c[max] = {};
+	int vi_tri_c = 0;
+	for (int i = 0; i < m; i++) {
+		c[vi_tri_c] = b[i];
+		vi_tri_c++;
+	}
+	for (int i = 0; i < n; i++) {
+		c[vi_tri_c] = a[i];
+		vi_tri_c++;
+	}
+	cout << "\t\t OUTPUT\n";
+	for (int i = 0; i < vi_tri_c; i++) {
+		cout << "c[" << i << "]= " << c[i] << "\n";
+	}
+}
+
+/*3. có 2 m?ng a, b ?ã ???c s?p x?p T?NG D?N.Tr?ng m?ng a, b vào c sao cho m?ng c t?ng d?n.
+	VD: a: 1 2 7
+	b : 0 2 6 9
+	= > c: 0 1 2 2 6 7 9*/
+void tron_mang_tang_dan(int a[], int n, int b[], int m) {
+	int c[max]{ 0 };
+	int vi_tri_c = 0;
+	for (int i = 0; i < n; i++) {
+		c[vi_tri_c] = a[i];
+		vi_tri_c++;
+	}
+	for (int i = 0; i < m; i++) {
+		c[vi_tri_c] = b[i];
+		vi_tri_c++;
+	}
+	for (int i = 0; i < vi_tri_c; i++) {
+		for (int j = i + 1; j < vi_tri_c - 1; j++)
+		{
+			if (c[i] > c[j]) {
+				int tam = c[i];
+				c[i] = c[j];
+				c[j] = tam;
+			}
+		}
+	}
+	cout << "\t\t OUTPUT";
+	for (int i = 0; i < vi_tri_c; i++) {
+		cout << "\nc[" << i << "]= " << c[i];
+	}
+}
+//4. Cho 1 m?ng các s? nguyên a.Vi?t ch??ng trình tách các s? âm ra m?ng b và xóa kh?i a
+   // VD : m?ng a : 1 - 2   3   4 - 6   0
+   // Xu?t :
+   // m?ng a : 1   3    4   0
+   // m?ng b : -2 - 6
+
+void tach_cac_so_am() {
+	int mang_a[max] = { 0 };
+	int l_c;
+	cout << " nhap so luong phan tu mang a: "; cin >> l_c;
+	for (int i = 0; i < l_c; i++) {
+		cout << "nhap phan tu a[" << i << "]= "; cin >> a[i];
+	}
+	xoa_mang_so_am(a, l_c);
+}
+void xoa_mang_so_am(int mang_a[], int& l_c) {
+	int b[max] = { 0 };
+	int thu;
+	int h = 0;// so luong mang b
+	for (int i = 0; i < l_c; i++) {
+		if (a[i] < 0) {
+			b[h] = a[i];
+			h++;
+			ham_xoa(a, l_c, i);
+		}
+	}
+	cout << "mang a\n";
+	for (int i = 0; i < l_c; i++) {
+		cout << "a[" << i << "]= " << a[i] << "\n";
+	}
+	cout << "mang b\n";
+	for (int i = 0; i < h; i++) {
+		cout << "b[" << i << "]= " << b[i] << "\n";
+	}
+}
+void ham_xoa(int a[], int& n, int vt) {
+	for (int i = vt; i < n - 1; i++) {
+		a[i] = a[i + 1];
+	}
+	n--;
+}
+//5. (T? duy + X? lý) // Bài thi k?t thúc h?c ph?n: Tin h?c c? s? 2(PTIT HCM)
+   // Cho 1 m?ng s? nguyên.S?p x?p các s? âm n?m tr??c gi?m d?n ti?p ??n là s? 0 r?i ??n các s? d??ng gi?m d?n
+   // VD : m?ng: 12pt : -4     5      0      6 - 1     0      8      3 - 11    15    2    1
+   // K?t qu? : -1 - 4 - 11     0       0    15     8      6       5      3     2    1
+   // G?i ý : S? d?ng m?ng ph?
+
+void bai_thi_ket_thuc_hoc_phan() {
+	int n;
+	int a[max] = { 0 };
+	
+	cout << "\nNhap So Luong Phan Tu a ";cin >> n;
+	for (int i = 0; i < n; i++) {
+		cout << "nhap phan tu a[" << i << "]= "; cin >> a[i];
+	}
+	int b[max];
+	int d[max] = { 0 };
+	int s_l_d = 0;
+	int s_l_b = 0;int s_l_c = 0;
+	int c[max];
+	// tach ra
+	for (int i = 0; i < n;i++) {
+		if (a[i] > 0) {
+			d[s_l_d] = a[i];
+			s_l_d++;
+		}
+		else if (a[i] == 0) {
+			b[s_l_b] = a[i];
+			s_l_b++;
+
+			ham_xoa(a, n, i);
+		}
+		else if (a[i] < 0) {
+			c[s_l_c] = a[i];
+			s_l_c++;
+			ham_xoa(a, n, i);
+		}
+	}
+	for (int i = 0; i < s_l_d; i++) {
+		cout << "d[" << i << "]= " << d[i] << "\n";
+	}
+	for (int i = 0; i < s_l_b; i++) {
+		cout << "b[" << i << "]= " << b[i] << "\n";
+	}
+	for (int i = 0; i < s_l_c; i++) {
+		cout << "c[" << i << "]= " << c[i] << "\n";
+	}
+}
+
+/*6. Cho m?ng 1 chi?u các s? nguyên.Vi?t ch??ng trình tìm ph?n t? l?n th? k trong m?ng
+	VD : 2 15 3 - 6 4     k = 2 = > ph?n t? l?n th? 2 là: `15*/
+void tim_phan_tu_lon_nha() {
+	int n;
+	int a[max] = { 0 };
+	cout << "\nNhap So Luong Phan Tu a ";cin >> n;
+	for (int i = 0; i < n; i++) {
+		cout << "nhap phan tu a[" << i << "]= "; cin >> a[i];
+	}
+	int lon_nhat = a[0];
+	int vitr = 0;
+	for (int i = 1; i < n; i++) {
+		if (a[i] > lon_nhat) {
+			lon_nhat = a[i];
+			vitr = i + 1;
+		}
+	}
+	cout << " vi tri cua so lon nhat la " << vitr << " la so" << lon_nhat << "\n";
+}
+// 7. Vi?t chuong trình tìm UCLN c?a t?t c? các ph?n t? trong m?ng 1 chi?u các s? nguyên.
+void uoc_chung_lon_nhat() {
+	int n;;
+	lamlai:
+	cout << "nhap so luong phan tu  a "; cin >> n;
+	for (int i = 0;i < n; i++) {
+		cout << "a[" << i << "]= "; cin >> a[i];
+		if (a[i] < 0) {
+			cout << " vui long nhap phan tu lon hon 0";
+			goto lamlai;
+		}
+	}
+	int uoc = a[0];
+	for (int i = 1; i < n; i++)
+	{
+		uoc = uoc_chcung_lon_nhat_cuaa_2_so(uoc, a[i]);
+	}
+	cout << " uoc chung lon nhat cua mang la : " << uoc << "\n";
+}
+int  uoc_chcung_lon_nhat_cuaa_2_so(int x, int  y)
+{
+	if (x < y) {
+		for (int i = x; i >= 1; i--) {
+			if (x % i == 0 && y % i == 0) {
+				return i;
+			}
+		}
+	}
+	else if (x > y) {
+		for (int i = y; i >= 1; i--)
+		{
+			if (x % i == 0 && y % i == 0) {
+				return i;
+			}
+	} }
+
+} //8. Cho m?ng 1 chi?u các s? nguyên.Hãy tìm giá tr? trong m?ng các s? nguyên xa giá tr? x nh?t(x nh?p t? bàn phím)
+	// VD: 24 45 23 13 43 - 12
+	// x = 15
+	// ==> giá tr? trong m?ng xa x nh?t là : 45
+void so_xa_nhat() {
+	int a[max] = { 0 };
+	int n;
+	cout << " nhap so phan tu cua a ";cin >> n;
+	int x;
+	for (int i = 0; i < n; i++) {
+		cout << "nhap phan tu a[" << i << "]= "; cin >> a[i];
+	}
+	cout << " nhap so x :"; cin >> x;
+	int thu = a[0] - x;
+	int so = a[0];
+	for (int i = 1; i < n; i++) {
+		if ((a[i] - x) > thu) {
+			thu = a[i] - n;
+			so = a[i];
+
+		}
+	}
+	cout << " xa x nhat la " << so;
+}
+//Bài 9. Cho mảng 1 chiều các số nguyên. Viết chương trình in ra các phần tử kề nhau mà cả hai đều chẵn.
+void tim_2_so_deu_chan() {
+	int a[max] = { 0 };
+	int n;
+	cout << " nhap so phan tu cua a ";cin >> n;
+	int x;
+	for (int i = 0; i < n; i++) {
+		cout << "nhap phan tu a[" << i << "]= "; cin >> a[i];
+	}
+	int g = 0; int h = 0;
+	for (int i = 0; i < n - 1; i++) {
+		if (a[i] % 2 == 0 && a[i + 1] % 2 == 0) {
+			g = a[i];
+			h = a[i + 1];
+		}
+	}
+	cout << " 2 so chan lien tiep la " << g << " va " << h;
+}
+
+//Bài 10. Cho mảng 1 chiều các số nguyên. Viết chương trình đảo ngược mảng. VD:  1 5 6 2  => 2 6 5 1
+void dao_nguoc_mang() {
+	int b[max] = { 0 };
+	int a[max] = { 0 };
+	int n;
+	cout << " nhap so phan tu cua a ";cin >> n;
+	int x;
+	for (int i = 0; i < n; i++) {
+		cout << "nhap phan tu a[" << i << "]= "; cin >> a[i];
+	}
+	int bien_dem_b = 0;
+	for (int i = n - 1; i >= 0; i--) {
+		b[bien_dem_b] = a[i];
+		bien_dem_b++;
+	}
+	cout << " mang sau khi dao nguoc \n";
+	for (int i = 0; i < bien_dem_b; i++) {
+		cout << "b[" << i << "]= " << b[i]<<"\n";
+	}
+}
+//Bài 11. Cho mảng 1 chiều các số nguyên. Hãy "dịch phải xoay vòng" k lần các phần tử trong mảng. VD: 1 5 6 2 3 , k = 2  => 2 3 1 5 6
+void xoay_mang() {
+	int a[max] = { 0 };
+	int n;
+	cout << " nhap so phan tu cua a ";cin >> n;
+	int x;
+	for (int i = 0; i < n; i++) {
+		cout << "nhap phan tu a[" << i << "]= "; cin >> a[i];
+	}
+	int k;
+	cout << " nhap k= "; cin >> k;
+	int b[max];
+	int bien_b = 0;
+	for (int i = n - k; i < n; i++) {
+		b[bien_b] = a[i];
+		bien_b++;
+	}
+	for (int i = 0; i < n - k;i++) {
+		b[bien_b] = a[i];
+		bien_b++;
+	}
+	cout << " mang sau khi xoay\n";
+	for (int i = 0; i < bien_b; i++) {
+		cout << "b[" << i << "]= " << b[i]<<"\n";
+	}
+}
