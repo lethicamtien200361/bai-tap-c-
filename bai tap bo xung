@@ -1,0 +1,26 @@
+void tim_phan_tu_lon_nha() {
+	int n;
+	int a[max] = { 0 };
+	cout << "\nNhap So Luong Phan Tu a ";cin >> n;
+	for (int i = 0; i < n; i++) {
+		cout << "nhap phan tu a[" << i << "]= "; cin >> a[i];
+	}
+	for (int i = 0;i < n - 1; i++) {
+		for (int j = i + 1; j < n; j++) {
+			if (a[i] < a[j]) {
+				int tam = a[i];
+				a[i] = a[j];
+				a[j] = tam;
+			}
+		}
+	}
+	int thu = 0;
+	int k;
+	cout << " nhap k = "; cin >> k;
+	for (int i = 0; i < n; i++) {
+		thu = i + 1;
+		if (thu == k) {
+			cout << " phan tu lon thu k la : " << a[i];
+		}
+	}
+}
