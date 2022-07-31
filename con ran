@@ -1,0 +1,599 @@
+#include<iostream>
+#include"Header.h"
+#include<string>
+#include <cstdlib>
+using namespace std;
+//------------------
+//------ BIEN CUC BO-----------
+#define max 1000
+int toa_do_x[max] = { 0 };// tao mang de chua tao do x
+int toa_do_y[max] = { 0 };// tao mang de chua toa do y
+int so_luong_ban_dau_ran = 4;// so luong dot cua con ran ban dau 
+int x_qua; int y_qua;// tao 2 vi tri cua qua gom x va y
+int x_qua_tang;int y_qua_tang;// khoi ta vi tri cua quang tang gom x va y
+//---------- CHAY CHUONG TRINH LEVEL 1 -----------
+void level_1();
+void ve_tuong_level_1();
+void khoi_tao_ran();
+void ve_ran();
+void di_chuyen_con_ran(int x, int y);
+void khoi_tao_qua();
+bool ran_de_qua();
+void ve_qua();
+bool kiem_tra_ran_an_qua();
+void khoi_tao_qua_tang();
+void ve_qua_tang();
+bool kiem_tra_ran_an_qua_tang();
+bool kiem_tra_game_over_level_1();
+//-----------CHAY CHUONG TRINH LEVEL 2--------
+void leve_2();
+void ve_tuong_level_2();
+void khoi_ta_qua_level_2();
+void khoi_tao_qua_tang_level_2();
+bool kiem_tra_game_over_leve_2();
+bool kiem_tra_ran_xuyen_tuong_trai();
+bool kiem_trai_ran_xuyen_tuong_phai();
+//-------------	LEVEL 3------------
+void ve_tuong_leve_3();
+void level_3();
+void menu();
+void vong_chay();
+void game_over();
+void cam_on();
+// ---------- HAM MAIN---------------
+int main() {
+	menu();
+	//level_1();
+	//leve_2();
+	//level_3();
+	//chuyen_dong();
+	return 0;
+}
+// ----------- MENU---------------
+void menu() {
+	while(true) {
+		system(" cls");
+		ShowCur(false);
+		ve_tuong_level_1();
+		vong_chay();
+		gotoXY(50, 13);
+		cout << "1. PLAY GAME \n";
+		gotoXY(50, 14);
+		cout << "2. QUIT\n";
+		int luachon; 
+		gotoXY(50, 15);
+		cout << "NHAP LUA CHON "; cin >> luachon;
+		switch (luachon)
+		{
+		case 1: {
+			level_1();
+			break;
+		}
+		case 2: {
+			cam_on();
+			char dung;
+			cin >> dung;
+			break;
+		}
+		default:
+			cout << " nhap lai lua chon ";
+			break;
+		}
+	}
+}
+//------------------lang vong load ------ hien thi mang hinh gameover 
+
+void vong_chay() {
+	system("cls");
+	ShowCur(false);
+	gotoXY(20, 9); cout << " GAME CON RAN NGU NGOC \n";
+	string a = R"(
+                                                       ____
+                                                      / . .\
+                                                      \  ---<
+                                                       \  /
+                                             __________/ / 
+                                          -=:___________/
+)";
+	
+	gotoXY(0, 5);
+	cout << a;
+	ve_tuong_level_1();
+	gotoXY(20, 16);
+	char n = 176;
+	cout << "Loading\n";
+	for(int i = 20; i < 90; i++) {
+		gotoXY(i, 18);
+		cout << n;
+		Sleep(100);
+	}
+
+}
+void game_over() {
+	system("cls");
+	ve_tuong_level_1();
+	gotoXY(40, 10);
+	cout << "GAME OVER";
+}
+//----------- loi cam on 
+void cam_on() {
+	system("cls");
+	ve_tuong_level_1();
+	gotoXY(50, 11);
+	cout << "CAM ON CAC BAN DA DONG HANH CUNG GAME \n";
+	gotoXY(50, 12);
+	cout << "HEN GAP LAI\n";
+}
+// -------------- leve 1--------------
+void level_1()
+{
+	system("cls");
+	ShowCur(false);// khong hien thi dau nhap nhay cua con game
+	int diem = 0;// diem cua game
+	int x = 50; int y = 13;// x va y de khoi tao con ran
+	int bien_den_so_lan_an_qua = 0;// bien theo doi de tang qua cho con game 
+	ve_tuong_level_1();
+	gotoXY(105, 4);
+	cout << "DIEM: " << diem;
+	khoi_tao_ran();
+	SetColor(2);
+	ve_ran();
+	khoi_tao_qua();
+	ve_qua();
+	int check = 2;// kiem tra nguoi dung nhap gi 
+	while (true)
+	{
+		gotoXY(toa_do_x[so_luong_ban_dau_ran], toa_do_y[so_luong_ban_dau_ran]);
+		cout << " ";
+		if (_kbhit()) {
+			char c = _getch();// lay ki tu cu nguoi dung nhap vao
+			if (c == -32)// kiem tra lai nguoi dung co nhap cac ki tu moi ten khong 
+			{
+				c = _getch();// lay ki tu cua nguoi dung nhap vao
+				if (c == 72 && check != 0)
+				{
+					check = 1;
+				}
+				else if (c == 80 && check != 1) {
+					check = 0;
+				}
+				else if (c == 77 && check != 3) {
+					check = 2;
+				}
+				else if (c == 75 && check != 2) {
+					check = 3;
+				}
+			}
+		}// lay phi, cua nguoi dung nhap vao 
+		if (check == 2)// nu nguoi dung nhap muoi ten di sang phai thi x tag len 
+		{
+			x++;
+		}
+		else if (check == 0)// neu nguoi dung nhap muoi ten di xuong y tang len 
+		{
+			y++;
+		}
+		else if (check == 1)// neu nguoi dung nhap muoi ten di len y giam xuong 
+		{
+			y--;
+		}
+		else if (check == 3) // neu nguoi dung nhap muoi ten san phai x gianxuong 
+		{
+			x--;
+		}
+		di_chuyen_con_ran(x, y);
+		ve_ran();
+		if (kiem_tra_ran_an_qua()) {
+			diem++;
+			
+			bien_den_so_lan_an_qua++;
+			gotoXY(105, 4);
+			cout << "DIEM: " << diem;
+			khoi_tao_qua();
+			ve_qua();
+		}
+		if (diem == 5) {
+				leve_2();
+				break;
+			}
+		if (bien_den_so_lan_an_qua == 2) {
+			khoi_tao_qua_tang();
+			ve_qua_tang();
+			bien_den_so_lan_an_qua = 0;
+		}
+		if (kiem_tra_ran_an_qua_tang()) {
+			diem += 3;
+			so_luong_ban_dau_ran += 3;
+			gotoXY(105, 4);
+			cout << "DIEM: " << diem;
+		}
+		if (kiem_tra_game_over_level_1()) {
+			game_over();
+			break;
+		}
+
+		Sleep(100);
+	}
+	_getch();// ta dung chuong trinh de khong hien a lenh ket thuc 
+}
+void ve_tuong_level_1() {
+	for (int x = 10; x <= 100; x++) {
+		SetColor(1);
+		gotoXY(x, 1);
+		cout << "_";
+		gotoXY(x, 25);
+		cout << "_";
+	}
+	for (int y = 2; y < 26; y++) {
+		SetColor(1);
+		gotoXY(10, y);
+		cout << "|";
+		gotoXY(100, y);
+		cout << "|";
+	}
+}
+void khoi_tao_ran() {
+	int x = 50;int y = 13;
+	for (int i = 0; i < so_luong_ban_dau_ran; i++) {
+		toa_do_x[i] = x; // khoi tao mang toa do x cac phan tu 50 49 49 47
+		toa_do_y[i] = y;// kjoi tao mang toa do y co gia tri lan luoc cac vi tri 13 13 13 13 
+		x--;
+	}
+}
+void ve_ran() {
+	for (int i = 0; i < so_luong_ban_dau_ran; i++) {
+		if (i == 0) {
+			gotoXY(toa_do_x[i], toa_do_y[i]);
+			cout << "0";
+		}
+		else {
+			gotoXY(toa_do_x[i], toa_do_y[i]);
+			cout << "o";
+		}
+	}
+}
+void di_chuyen_con_ran(int x, int y) {
+	for (int i = so_luong_ban_dau_ran; i > 0; i--) {
+		toa_do_x[i] = toa_do_x[i - 1];// la dich chuyen con ran tu pha dau tro v sau 1 don vi de chen cai dau con ran moi vao vi tri x
+		toa_do_y[i] = toa_do_y[i - 1];// la dich chuyen con ran tu pha dau tro v sau 1 don vi de chen cai dau con ran moi vao vi tri y
+	}
+	toa_do_x[0] = x;// cho dau con ran vao vi tri tiep theo cua nguoi dung nhap vao
+	toa_do_y[0] = y;// cho dau con ran vao vi tri tiep theo cua nguoi dung nhap vao
+}
+void khoi_tao_qua() {
+	// cong thuc cua rand:   gia tri= rand() % ( max - min - so_luong)-min;
+	x_qua = rand() % (99 - 11 - 1) + 11;
+	y_qua = rand() % (25 - 2 - 1) + 2;
+}
+void ve_qua() {
+	gotoXY(x_qua, y_qua);
+	cout << "*";
+}
+bool kiem_tra_ran_an_qua() {
+	return (toa_do_x[0] == x_qua && toa_do_y[0] == y_qua);
+}
+bool ran_de_qua() {
+	for (int i = 0; i < so_luong_ban_dau_ran; i++) {
+		// kiem tra tung cac dot cua con ran co de a hay khong 
+		if (x_qua == toa_do_x[i] && y_qua == toa_do_y[i]) {
+			return true;
+		}
+	}
+	return false;
+}
+void khoi_tao_qua_tang() {
+	x_qua_tang = rand() % (99 - 11 - 1) + 11;
+	y_qua_tang = rand() % (25 - 2 - 1) + 2;
+}
+void ve_qua_tang() {
+	gotoXY(x_qua_tang, y_qua_tang);
+	cout << "#";
+}
+bool kiem_tra_ran_an_qua_tang() {
+	return toa_do_x[0] == x_qua_tang && toa_do_y[0] == y_qua_tang;
+}
+bool kiem_tra_game_over_level_1() {
+	if (toa_do_x[0] == 11 || toa_do_x[0] == 99 || toa_do_y[0] == 2 || toa_do_y[0] == 25) {
+		return true;
+	}
+	for (int i = 1; i < so_luong_ban_dau_ran; i++) {
+		if (toa_do_x[0] == toa_do_x[i] && toa_do_y[0] == toa_do_y[i]) {
+			return true;
+		}
+	}
+	return false;
+}
+
+// ----------- level 2--------
+void leve_2() {
+	system("cls");
+	ShowCur(false);
+	int x = 50;int y = 13;
+	int diem = 0;
+	int bien_theo_doi_diem = 0;
+	so_luong_ban_dau_ran = 4;
+	ve_tuong_level_2();
+	khoi_ta_qua_level_2();
+	ve_ran();
+	gotoXY(105, 4);
+	cout << "DIEM: " << diem;
+	khoi_tao_qua();
+	ve_qua();
+	int check = 2;
+		while (true)
+	{
+		gotoXY(toa_do_x[so_luong_ban_dau_ran], toa_do_y[so_luong_ban_dau_ran]);
+		cout << " ";
+		if (_kbhit()) {
+			char c = _getch();// lay ki tu cu nguoi dung nhap vao
+			if (c == -32)// kiem tra lai nguoi dung co nhap cac ki tu moi ten khong 
+			{
+				c = _getch();// lay ki tu cua nguoi dung nhap vao
+				if (c == 72 && check != 0) {
+					check = 1;
+				}
+				else if (c == 80 && check != 1) {
+					check = 0;
+				}
+				else if (c == 77 && check != 3) {
+					check = 2;
+				}
+				else if (c == 75 && check != 2) {
+					check = 3;
+				}
+			}
+		}// lay phi, cua nguoi dung nhap vao 
+		if (check == 2)// nu nguoi dung nhap muoi ten di sang phai thi x tag len 
+		{
+			x++;
+		}
+		else if (check == 0)// neu nguoi dung nhap muoi ten di xuong y tang len 
+		{
+			y++;
+		}
+		else if (check == 1)// neu nguoi dung nhap muoi ten di len y giam xuong 
+		{
+			y--;
+		}
+		else if (check == 3) // neu nguoi dung nhap muoi ten san phai x gianxuong 
+		{
+			x--;
+		}
+		di_chuyen_con_ran(x, y);
+		ve_ran();
+		if (kiem_tra_ran_an_qua()) {
+			diem++;
+			
+			bien_theo_doi_diem++;
+			gotoXY(105, 4);
+			cout << "DIEM: " << diem;
+			khoi_ta_qua_level_2();
+			ve_qua();
+		}
+		if (diem == 5) {
+				level_3();
+				break;
+			}
+		if (bien_theo_doi_diem == 2) {
+			khoi_tao_qua_tang_level_2();
+			ve_qua_tang();
+			bien_theo_doi_diem = 0;
+		}
+		if (kiem_tra_ran_an_qua_tang()) {
+			diem += 3;
+			so_luong_ban_dau_ran += 3;
+			gotoXY(105, 4);
+			cout << "DIEM: " << diem;
+		}
+		if (kiem_tra_ran_xuyen_tuong_trai()) {
+			x = 11;
+		}
+		if (kiem_trai_ran_xuyen_tuong_phai()) {
+			x = 99;
+		}
+		if (kiem_tra_game_over_leve_2()) {
+			game_over();
+			break;
+		}
+
+		Sleep(100);
+	}
+
+	_getch();
+}
+void ve_tuong_level_2() {
+	for (int x = 10; x <= 100; x++) {
+		gotoXY(x, 1);
+		cout << "_";
+		gotoXY(x, 25);
+		cout << "_";
+	}
+	for (int y = 2; y < 26; y++) {
+		gotoXY(10, y);
+		cout << "|";
+		gotoXY(100, y);
+		cout << "|";
+	}
+	for (int x = 25; x <= 85; x++) {
+		gotoXY(x, 8);
+		cout << "=";
+		gotoXY(x, 15);
+		cout << "=";
+	}
+}
+void khoi_ta_qua_level_2() {
+lamlai:
+	x_qua = rand() % (99 - 11 - 1) + 11;
+	y_qua = rand() % (25 - 2 - 1) + 2;
+	for (int i = 25; i < 86; i++) {
+		if ((x_qua == i && y_qua == 8) || (x_qua == i && y_qua == 15)) {
+			goto
+				lamlai;
+		}
+	}
+}
+void khoi_tao_qua_tang_level_2() {
+lamlai:
+	x_qua_tang = rand() % (99 - 11 - 1) + 11;
+	y_qua_tang = rand() % (25 - 2 - 1) + 2;
+	for (int i = 25; i < 86; i++) {
+		if ((x_qua_tang == i && y_qua_tang == 8) || (x_qua_tang == i && y_qua_tang == 15)) {
+			goto
+				lamlai;
+		}
+	}
+}
+bool kiem_tra_game_over_leve_2() {
+
+	// kiem tra tung doan
+	for (int i = 1; i <= 8; i++) {
+		if ((toa_do_x[0] == 11 && toa_do_y[0] == i) || (toa_do_x[0] == 99 && toa_do_y[0] == i)) {
+			return true;
+		}
+	}
+	for (int i = 15; i <= 25; i++) {
+		if ((toa_do_x[0] == 10 && toa_do_y[0] == i) || (toa_do_x[0] == 99 && toa_do_y[0] == i)) {
+			return true;
+		}
+	}
+	//rang dung than
+	for (int i = 1; i < so_luong_ban_dau_ran; i++) {
+
+		if (toa_do_x[0] == toa_do_x[i] && toa_do_y[0] == toa_do_y[i]) {
+			return true;
+		}
+	}
+	// kiem tra 2 cai thanh 
+	for (int i = 25; i <= 85; i++) {
+		if ((toa_do_x[0] == i && toa_do_y[0] == 15) || (toa_do_x[0] == i && toa_do_y[0] == 9)) {
+			return true;
+		}
+	}
+	if (toa_do_y[0] == 2 || toa_do_y[0] == 25) {
+		return true;
+	}
+	return false;
+}
+bool kiem_tra_ran_xuyen_tuong_trai() {
+	for (int i = 9; i < 15; i++) {
+		if ((toa_do_x[0] == 99 && toa_do_y[0] == i)) {
+			return true;
+		}
+	}
+	return false;
+}
+bool kiem_trai_ran_xuyen_tuong_phai() {
+	for (int i = 9; i < 15; i++) {
+		if ((toa_do_x[0] == 10 && toa_do_y[0] == i)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+//------------level 3-----------
+void level_3() {
+	system("cls");
+	ShowCur(false);
+	int x = 50; int y = 13;
+	int diem = 0;
+	int theo_doi = 0;
+	ve_tuong_leve_3();
+	khoi_tao_ran();
+	ve_ran();
+	khoi_tao_qua();
+	ve_qua();
+	gotoXY(105, 4);
+	cout << "DIEM: " << diem;
+	int check = 2;
+	int y_thu = 5;
+	int n_thu = 100;
+	int x_thu = 12;
+	while (true)
+	{
+
+
+		gotoXY(toa_do_x[so_luong_ban_dau_ran], toa_do_y[so_luong_ban_dau_ran]);
+		cout << " ";
+		if (_kbhit()) {
+			char c = _getch();// lay ki tu cu nguoi dung nhap vao
+			if (c == -32)// kiem tra lai nguoi dung co nhap cac ki tu moi ten khong 
+			{
+				c = _getch();// lay ki tu cua nguoi dung nhap vao
+				if (c == 72 && check != 0) {
+					check = 1;
+				}
+				else if (c == 80 && check != 1) {
+					check = 0;
+				}
+				else if (c == 77 && check != 3) {
+					check = 2;
+				}
+				else if (c == 75 && check != 2) {
+					check = 3;
+				}
+			}
+		}// lay phi, cua nguoi dung nhap vao 
+		if (check == 2)// nu nguoi dung nhap muoi ten di sang phai thi x tag len 
+		{
+			x++;
+		}
+		else if (check == 0)// neu nguoi dung nhap muoi ten di xuong y tang len 
+		{
+			y++;
+		}
+		else if (check == 1)// neu nguoi dung nhap muoi ten di len y giam xuong 
+		{
+			y--;
+		}
+		else if (check == 3) // neu nguoi dung nhap muoi ten san phai x gianxuong 
+		{
+			x--;
+		}
+		di_chuyen_con_ran(x, y);
+		ve_ran();
+		ShowCur(false);
+		gotoXY(x_thu - 1, y_thu);
+		cout << "  ";
+		gotoXY(x_thu, y_thu);
+		cout << "**";
+		Sleep(50);
+		x_thu++;
+		if (x_thu == 99) {
+			y_thu += 1;
+			x_thu = 12;
+		}
+		if (y_thu == 25)
+		{
+
+		}
+		if (kiem_tra_ran_an_qua()) {
+			diem++;
+			gotoXY(105, 4);
+			cout << "DIEM: " << diem;
+			khoi_tao_qua();
+			ve_qua();
+			theo_doi++;
+		}
+		if (kiem_tra_game_over_level_1()) {
+			game_over();
+			break;
+		}
+		Sleep(5);
+	}
+	_getch();
+}
+void ve_tuong_leve_3() {
+	for (int x = 10; x <= 100; x++) {
+		gotoXY(x, 1);
+		cout << "_";
+		gotoXY(x, 25);
+		cout << "_";
+	}
+	for (int y = 2; y < 26; y++) {
+		gotoXY(10, y);
+		cout << "|";
+		gotoXY(100, y);
+		cout << "|";
+	}
+}
